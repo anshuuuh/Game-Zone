@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlayZone - Game Arena</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: url('https://wallpapercave.com/wp/wp2526815.jpg') no-repeat center center/cover;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.8);
+      min-height: 100vh;
+      padding: 50px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      margin-bottom: 40px;
+      color: #00ffcc;
+    }
+
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .game-card {
+      background-color: #1f1f1f;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .game-card:hover {
+      transform: scale(1.05);
+    }
+
+    .game-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .game-card h2 {
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+    }
+
+    .game-card button {
+      padding: 10px 20px;
+      background-color: #00ffcc;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .game-card button:hover {
+      background-color: #00cba9;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h1>🎮 Welcome to PlayZone</h1>
+    <div class="game-grid">
+      <!-- Sudoku -->
+      <div class="game-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIXkOTPKToLnCYT_-mJB6a4AFRgqDZDlBRQ&s" alt="Sudoku Game" />
+        <h2>Sudoku</h2>
+        <button><a href="Su/a.html">Play Now</a></button>
+      </div>
+      
+      <!-- Tic Tac Toe -->
+      <div class="game-card">
+        <img src="image/hands-holding-pencils-play-tic-tac-toe-people-drawing-crosses-noughts-simple-game-children-flat-vector-illustration-strategy-concept-banner-website-design-landing-web-page_74855-24786.jpg" alt="Tic Tac Toe Game" />
+        <h2>Tic Tac Toe</h2>
+        <button><a href="tic-tac-toe/ttt_index.html">Play Now</a></button>
+      </div>
+
+      <!-- Rock Paper Scissors -->
+      <div class="game-card">
+        <img src="image/hands-holding-pencils-play-tic-tac-toe-people-drawing-crosses-noughts-simple-game-children-flat-vector-illustration-strategy-concept-banner-website-design-landing-web-page_74855-24786.jpg" alt="Rock Paper Scissors Game" />
+        <h2>Rock Paper Scissors</h2>
+        <button><a href="RPS/rps_index.html">Play Now</a></button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
