@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tic Tac Toe</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #2a003f;
+      color: #fff0f5;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 40px;
+      margin-bottom: 20px;
+      color: #ff69b4;
+      text-shadow: 0 0 10px #ff69b4;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin: 30px auto;
+      box-shadow: 0 0 20px #ff69b444;
+    }
+
+    td {
+      width: 100px;
+      height: 100px;
+      text-align: center;
+      font-size: 36px;
+      border: 2px solid #ff69b4;
+      cursor: pointer;
+      color: #fff;
+      transition: background-color 0.3s;
+    }
+
+    td:hover {
+      background-color: rgba(255, 105, 180, 0.1);
+    }
+
+    #status {
+      font-size: 24px;
+      margin: 20px;
+      color: #ffccff;
+    }
+
+    button {
+      margin: 10px;
+      padding: 12px 24px;
+      font-size: 16px;
+      background: transparent;
+      color: #ff69b4;
+      border: 2px solid #ff69b4;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px #ff69b488;
+    }
+
+    button:hover {
+      background-color: #ff69b4;
+      color: #2a003f;
+      box-shadow: 0 0 20px #ff69b4;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tic Tac Toe</h1>
+  <div id="status">Player X's turn</div>
+  <table id="ticTacToeGrid"></table>
+  <button onclick="resetGame()">Restart Game</button>
+  <button onclick="toggleMusic()">Play/Pause Music</button>
+
+  <!-- Audio Elements -->
+  <audio id="bgMusic" src="bg-music.mp3" loop></audio>
+  <audio id="winSound" src="win-sound.mp3"></audio>
+
+  <script>
+    const grid = document.getElementById("ticTacToeGrid");
+    const statusText = document.getElementById("status");
+
+    let currentPlayer = 'X';
+    let board = [
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', '']
+    ];
+
+    const bgMusic = document.getElementById("bgMusic");
+    const winSound = document.getElementById("winSound");
+
+    // Autoplay music on user interaction fallback
+    window.onload = () => {
+      bgMusic.volume = 0.3;
+      bgMusic.play().catch(() => {
+        console.log("Autoplay blocked. Music will play on user interaction.");
+      });
+    };
+
+    function toggleMusic() {
+      if (bgMusic.paused) {
+        bgMusic.play();
+      } else {
+        bgMusic.pause();
+      }
+    }
+
+    function createGrid() {
+      grid.innerHTML = "";
+      for (let row = 0; row < 3; row++) {
+        const tr = document.createElement("tr");
+        for (let col = 0; col < 3; col++) {
+          const td = document.createElement("td");
+          td.dataset.row = row;
+          td.dataset.col = col;
+          td.textContent = board[row][col];
+          td.addEventListener("click", handleMove);
+          tr.appendChild(td);
+        }
+        grid.appendChild(tr);
+      }
+    }
+
+    function handleMove(e) {
+      const row = parseInt(e.target.dataset.row);
+      const col = parseInt(e.target.dataset.col);
+      if (board[row][col] !== '') return;
+
+      board[row][col] = currentPlayer;
+      e.target.textContent = currentPlayer;
+
+      const winningCells = checkWin(currentPlayer);
+      if (winningCells) {
+        statusText.textContent = `Player ${currentPlayer} wins!`;
+        highlightWin(winningCells);
+        winSound.play();
+        endGame();
+      } else if (isDraw()) {
+        statusText.textContent = "It's a draw!";
+      } else {
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        statusText.textContent = `Player ${currentPlayer}'s turn`;
+      }
+    }
+
+    function checkWin(player) {
+      for (let i = 0; i < 3; i++) {
+        if (board[i][0] === player && board[i][1] === player && board[i][2] === player)
+          return [[i, 0], [i, 1], [i, 2]];
+        if (board[0][i] === player && board[1][i] === player && board[2][i] === player)
+          return [[0, i], [1, i], [2, i]];
+      }
+      if (board[0][0] === player && board[1][1] === player && board[2][2] === player)
+        return [[0, 0], [1, 1], [2, 2]];
+      if (board[0][2] === player && board[1][1] === player && board[2][0] === player)
+        return [[0, 2], [1, 1], [2, 0]];
+      return null;
+    }
+
+    function highlightWin(cells) {
+      cells.forEach(([r, c]) => {
+        const cell = document.querySelector(`td[data-row='${r}'][data-col='${c}']`);
+        cell.style.backgroundColor = "#ff69b4";
+        cell.style.color = "#2a003f";
+      });
+    }
+
+    function isDraw() {
+      return board.flat().every(cell => cell !== '');
+    }
+
+    function endGame() {
+      const cells = document.querySelectorAll("td");
+      cells.forEach(cell => cell.removeEventListener("click", handleMove));
+    }
+
+    function resetGame() {
+      currentPlayer = 'X';
+      board = [
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', '']
+      ];
+      statusText.textContent = "Player X's turn";
+      createGrid();
+    }
+
+    createGrid();
+  </script>
+</body>
+</html>
